@@ -6,7 +6,12 @@ class Comp: #A computer. Every computer in the game can (security notwithstandin
 		self.address = address #Defaults to -1 for now. (I can set appropiate addesses if I want - otherwise this will later assign a random IP-like address.)
 		self.drive = Dir("") #For the purposes of the simulation, all systems have one and only one 'drive'. This is just a blank-named directory.
 		self.users = [] #By default, all comps will have a root account with some hefty protection. Randomly-generated comps will get randomly-generated users with looser security.
-		
+
+		self.drive.addDir(Dir("bin"))
+		self.drive.addDir(Dir("home"))
+		self.drive.addDir(Dir("log"))
+		self.drive.addDir(Dir("var"))
+
 class User: #An account on a computer. For sake of avoiding potential headaches, one instance of a user should only ever be used by one comp! (Unless... hm.)
 	def __init__(self, name, password=-1):
 		self.name = name #The username, seen by player.
@@ -23,20 +28,31 @@ class Dir: #A folder/directory.
 		
 	def addDir(self, dirToAdd):
 		self.dirs.append(dirToAdd)
-		
-	def listFiles(self):
+
+	def ls(self):
+		for nextDir in self.dirs:
+			print(nextDir.name)
 		for nextFile in self.files:
-			print(nextFile.name)
+			print(nextFile.name + "." + nextFile.ext)
 
 class File: #A file. Contains stuff.
-	def __init__(self, name, extension="", contents=""):
+	def __init__(self, name, ext="", contents=""):
 		self.name = name #Used as filename, seen by player.
-		self.extension = extension #Filetype, seen by played. Can be blank.
+		self.ext = ext #Filetype, seen by played. Can be blank.
 		self.contents = contents #What's in the file, and what will be shown when the player cats the file. Useful for world-building.
 
-#del folder(fileIndex)
-
 testComp = Comp("localhost", "127.0.0.1")
-testFile = File("test", "txt", "Lorem ipsum...")
-testComp.drive.addFile(testFile)
-testComp.drive.listFiles()
+testComp.drive.addFile(File("test", "txt", "Lorem ipsum..."))
+wantToQuit = False
+currentComp = testComp
+currentDir = testComp.drive
+
+while (wantToQuit == False):	
+	command = input(currentComp.name + ":/" + currentDir.name + "$ ").split()
+	
+	if (command[0] == "ls"):
+		currentDir.ls()
+	elif (command[0] == "quit"):
+		wantToQuit = True
+	else:
+		print(command[0] + ": command not found")
