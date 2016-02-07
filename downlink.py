@@ -7,22 +7,6 @@ class Comp: #A computer. Every computer in the game can (security notwithstandin
 		self.drive = Dir("") #For the purposes of the simulation, all systems have one and only one 'drive'. This is just a blank-named directory.
 		self.users = [] #By default, all comps will have a root account with some hefty protection. Randomly-generated comps will get randomly-generated users with looser security.
 		
-	@property
-	def name(self):
-		return self.name
-	
-	@property
-	def users(self):
-		return self.users
-		
-	@property
-	def users(self):
-		return self.users
-		
-	@property
-	def drive(self):
-		return self.drive
-		
 class User: #An account on a computer. For sake of avoiding potential headaches, one instance of a user should only ever be used by one comp! (Unless... hm.)
 	def __init__(self, name, password=-1):
 		self.name = name #The username, seen by player.
@@ -31,20 +15,8 @@ class User: #An account on a computer. For sake of avoiding potential headaches,
 class Dir: #A folder/directory.
 	def __init__(self, name):
 		self.name = name #Used as foldername, seen by player.
-		self.files = [] #Folders can store other folders!
-		self.dirs = [] #Folders have files in them.
-		
-	@property
-	def name(self):
-		return self.name
-		
-	@property
-	def files(self):
-		return self.files
-		
-	@property
-	def dirs(self):
-		return self.dirs
+		self.dirs = [] #Folders can store other folders!
+		self.files = [] #Folders have files in them.
 		
 	def addFile(self, fileToAdd):
 		self.files.append(fileToAdd)
@@ -54,17 +26,13 @@ class Dir: #A folder/directory.
 		
 	def listFiles(self):
 		for nextFile in self.files:
-			print nextFile.name
+			print(nextFile.name)
 
 class File: #A file. Contains stuff.
 	def __init__(self, name, extension="", contents=""):
 		self.name = name #Used as filename, seen by player.
 		self.extension = extension #Filetype, seen by played. Can be blank.
 		self.contents = contents #What's in the file, and what will be shown when the player cats the file. Useful for world-building.
-	
-	@property
-	def name(self):
-		return self.name
 
 #del folder(fileIndex)
 
